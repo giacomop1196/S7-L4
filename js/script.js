@@ -37,8 +37,8 @@ const getImage = function () {
             if (arrayImg.photos.length === 0) { //Se non ci sono immagini
                 console.log('Non ci sono immagini')
                 cardContainer.innerHTML += `
-                 <div class="col justify-content-center">
-                     <div class="alert alert-danger mx-auto w-75" role="alert"> Non ci sono immagini!</div>
+                 <div class="col-auto">
+                     <div class="alert alert-danger mx-auto w-100 mx-auto" role="alert"> Non ci sono immagini!</div>
                  </div>
                     `
             } else { //Se ci sono immagini mostro le card
