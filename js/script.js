@@ -35,25 +35,37 @@ const getImage = function () {
             console.log('Array: ', arrayImg)
 
             if (arrayImg.photos.length === 0) { //Se non ci sono immagini
-                console.log('non ci sono immagini')
+                console.log('Non ci sono immagini')
                 cardContainer.innerHTML += `
-                    <div class="col">
-                    <div class="d-flex justify-content-center">
-                            <h5 class="text-white">Non ci sono immagini</h5>
-                    </div>
-                </div>
+                 <div class="col justify-content-center">
+                     <div class="alert alert-danger mx-auto w-75" role="alert"> Non ci sono immagini!</div>
+                 </div>
                     `
             } else { //Se ci sono immagini mostro le card
                 arrayImg.photos.forEach((event) => {
+
+                    let imgTitle; //Alcune immagini non hanno un titolo quindi creo una variabile per gestire questo problema
+
+                    if (event.alt) {
+                        imgTitle = event.alt; // Assegna il valore
+                    } else {
+                        imgTitle = 'Nessun Titolo Trovato'; // Assegna il valore predefinito
+                    }
+
                     cardContainer.innerHTML += `
                     <div class="col" id="card-${event.id}">
                     <div class="card h-100">
-                        <img src="${event.src.original}" class="card-img-top object-fit-cover" style="height: 200px; alt="img-${event.id}">
+                        <img src="${event.src.original}" class="card-img-top object-fit-cover" style="height: 200px; alt="img-${event.id}" data-bs-toggle="modal" data-bs-target="#exampleModal-${event.id}">
                         <div class="card-body">
-                            <h5 class="card-title">${event.alt}</h5>
-                            <button class="btn btn-danger" onclick="hideCard('card-${event.id}')">Hide</button>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal-${event.id}">
-                              Launch demo modal
+                            <h5 class="card-title" data-bs-toggle="modal" data-bs-target="#exampleModal-${event.id}">${imgTitle}</h5>
+                            
+                        </div>
+                        <div class="text-center">
+                        <button class="btn btn-danger my-2" onclick="hideCard('card-${event.id}')">
+                                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                                    </svg>
+                              Hide
                             </button>
                         </div>
                     </div>
@@ -64,10 +76,10 @@ const getImage = function () {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">${event.alt}</h1>
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">${imgTitle}</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body" style="background-color: ${event.avg_color};">
                                             <div class="d-flex justify-content-center">
                                                 <img src="${event.src.original}" alt="img-${event.id}"
                                                     class="w-50 rounded-3">
